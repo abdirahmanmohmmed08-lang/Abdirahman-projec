@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Heart Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .heart {
+                background: linear-gradient(45deg, #ff6b6b, #ff4757);
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+                animation: pulse-slow 2s infinite;
+            }
+            .heart::before,
+            .heart::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: inherit;
+                border-radius: 50%;
+            }
+            .heart::before {
+                top: -50%;
+                left: 0;
+            }
+            .heart::after {
+                top: 0;
+                left: 50%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 to-red-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-4xl w-full text-center">
+        <!-- Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500 mb-4 animate-pulse">
+                Valentine's Day
+            </h1>
+            <p class="text-lg md:text-xl text-pink-600 font-medium">A special moment just for you</p>
+        </div>
+
+        <!-- Main Content -->
+        <div id="questionSection" class="bg-white rounded-2xl shadow-xl p-8 mb-12 transition-all duration-500 hover:shadow-2xl">
+            <div class="flex justify-center mb-8">
+                <div class="heart w-32 h-32 relative"></div>
+            </div>
+            
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+                Will you be my Valentine?
+            </h2>
+            
+            <p class="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
+                Click below to discover if your answer will bring joy to this special day!
+            </p>
+            
+            <div class="flex justify-center space-x-6">
+                <button id="yesBtn" onclick="handleAnswer('yes')" 
+                        class="px-8 py-4 bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-full shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300">
+                    Yes!
+                </button>
+                <button id="noBtn" onclick="handleAnswer('no')" 
+                        class="px-8 py-4 bg-gradient-to-r from-red-400 to-red-600 text-white font-bold rounded-full shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-red-300">
+                    No
+                </button>
+            </div>
+        </div>
+
+        <!-- Heart Display Area -->
+        <div id="heartSection" class="hidden bg-white rounded-2xl shadow-xl p-8 min-h-96 flex flex-col items-center justify-center">
+            <div class="relative mb-8">
+                <div class="heart w-48 h-48 relative animate-bounce-slow"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i class="fas fa-heart text-6xl text-red-500 animate-ping opacity-75"></i>
+                </div>
+            </div>
+            
+            <h2 id="message" class="text-3xl font-bold text-gray-800 mb-4"></h2>
+            <p id="description" class="text-gray-600 text-lg mb-8 max-w-2xl"></p>
+            
+            <button onclick="resetPage()" 
+                    class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-purple-300">
+                Try Again
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 text-gray-500">
+            <p>Made with ❤️ for someone special</p>
+        </div>
+    </div>
+
+    <script>
+        function handleAnswer(answer) {
+            const questionSection = document.getElementById('questionSection');
+            const heartSection = document.getElementById('heartSection');
+            const messageElement = document.getElementById('message');
+            const descriptionElement = document.getElementById('description');
+
+            // Hide question section
+            questionSection.classList.add('hidden');
+            
+            // Show heart section
+            heartSection.classList.remove('hidden');
+            
+            // Set message and description based on answer
+            if (answer === 'yes') {
+                messageElement.textContent = "Yay! You said YES!";
+                descriptionElement.innerHTML = "Your heart is full of love and kindness, and this moment brings joy to both our hearts. 💖";
+            } else {
+                messageElement.textContent = "Hmm... Let's reconsider!";
+                descriptionElement.innerHTML = "Even if you said no, I still hope you have a wonderful Valentine's Day filled with love and happiness. 🌹";
+            }
+        }
+
+        function resetPage() {
+            const questionSection = document.getElementById('questionSection');
+            const heartSection = document.getElementById('heartSection');
+            
+            questionSection.classList.remove('hidden');
+            heartSection.classList.add('hidden');
+        }
+
+        // Initialize with heart animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const heart = document.querySelector('.heart');
+            heart.style.animation = 'pulse-slow 2s infinite';
+        });
+    </script>
+</body>
+</html>
